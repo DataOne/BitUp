@@ -1,0 +1,42 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DataOne.BitUp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="BitbucketTeams" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;testTeam;apiKey123&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="AzureStorageContainer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">test</Value>
+    </Setting>
+    <Setting Name="AzureAccountName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">blobtester</Value>
+    </Setting>
+    <Setting Name="AzureAccountKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">12334353453==</Value>
+    </Setting>
+    <Setting Name="StoreInAzure" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SmtpHost" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">smtp.sendgrid.net</Value>
+    </Setting>
+    <Setting Name="EmailAccount" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">a@b.com</Value>
+    </Setting>
+    <Setting Name="EmailPassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">123456</Value>
+    </Setting>
+    <Setting Name="SendMailTo" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">abc@dfg.de</Value>
+    </Setting>
+    <Setting Name="SmtpPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">587</Value>
+    </Setting>
+    <Setting Name="MailFrom" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">BitUp@dfg.de</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
