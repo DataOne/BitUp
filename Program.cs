@@ -42,11 +42,30 @@ namespace DataOne.BitUp
             foreach (string bitbucketTeam in bitbucketTeams)
             {
                 string[] nameAndKey = bitbucketTeam.Split(';');
-                string teamName = nameAndKey[0];
-                string key = nameAndKey[1];
-
-                IGitSourceControl sourceControl = new BitbucketSourceControl(teamName, key);
+                string teamName;
+                IGitSourceControl sourceControl;
                 var allRepositories = new List<BitbucketRepository>();
+
+                if (nameAndKey.Length == 2)
+                {
+                    teamName = nameAndKey[0];
+                    var key = nameAndKey[1];
+
+                    sourceControl = new BitbucketSourceControl(teamName, key);
+                }
+                else if (nameAndKey.Length == 3)
+                {
+                    teamName = nameAndKey[0];
+                    var serviceAccountUsername = nameAndKey[1];
+                    var serviceAccountPassword = DecryptPassword(nameAndKey[2]);
+
+                    sourceControl = new BitbucketSourceControl(teamName, serviceAccountUsername, serviceAccountPassword);
+                }
+                else
+                {
+                    AppendLog("Team configuration is falsy.");
+                    return;
+                }
 
                 try
                 {
@@ -257,5 +276,10 @@ namespace DataOne.BitUp
             }
         }
 
+        private static string DecryptPassword(string password)
+        {
+            var passwordBytes = Convert.FromBase64String(password);
+            return Encoding.UTF8.GetString(passwordBytes);
+        }
     }
 }

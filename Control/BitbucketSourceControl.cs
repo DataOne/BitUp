@@ -15,14 +15,23 @@ namespace DataOne.BitUp
         private string _issueExportUri = Resources.BitbucketIssueExportUri;
         private string _issueExportDownloadUri = Resources.BitbucketIssueExportDownloadUri;
         private Request _request;
-        private string _teamName, _apiKey;
+        private string _teamName, _username, _password;
         private const int MaxPagelen = 100;
 
         public BitbucketSourceControl(string teamName, string apiKey)
         {
             _teamName = teamName;
-            _apiKey = apiKey;
+            _username = teamName;
+            _password = apiKey;
             _request = new Request(teamName, apiKey);
+        }
+
+        public BitbucketSourceControl(string teamName, string serviceAccountUsername, string serviceAccountPassword)
+        {
+            _teamName = teamName;
+            _username = serviceAccountUsername;
+            _password = serviceAccountPassword;
+            _request = new Request(_username, _password);
         }
 
         public IEnumerable<BitbucketRepository> GetTeamRepositories(string teamName)
@@ -117,8 +126,8 @@ namespace DataOne.BitUp
         public void CloneRepository(string cloneUrl, string path)
         {
             var userAndPass = new UsernamePasswordCredentials();
-            userAndPass.Username = _teamName;
-            userAndPass.Password = _apiKey;
+            userAndPass.Username = _username;
+            userAndPass.Password = _password;
 
             var cloneOptions = new CloneOptions();
             cloneOptions.IsBare = true;
