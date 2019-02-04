@@ -4,6 +4,8 @@ namespace DataOne.BitUp
 {
     public class LocalStorage : IStorage
     {
+        private const string RepositoryFolderName = @".\DataOne.BitUp.RepositoryBackups";
+
         public string GetName()
         {
             return "local file system";
@@ -13,12 +15,19 @@ namespace DataOne.BitUp
         {
             try
             {
-                Directory.CreateDirectory(@".\DataOne.BitUp.RepositoryBackups");
+                Directory.CreateDirectory(RepositoryFolderName);
             }
             finally
             {
-                File.Copy(filePath, @".\DataOne.BitUp.RepositoryBackups\" + Path.GetFileName(filePath), true);
+                File.Copy(filePath, RepositoryFolderName + @"\" + Path.GetFileName(filePath), true);
             }
+        }
+
+        public bool IsEmpty()
+        {
+            var subDirs = Directory.GetDirectories(RepositoryFolderName);
+            var files = Directory.GetFiles(RepositoryFolderName);
+            return subDirs.Length > 0 && files.Length > 0;
         }
     }
 }

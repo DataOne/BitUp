@@ -30,7 +30,7 @@ namespace DataOne.BitUp
             }
             var bitbucketTeams = Settings.Default.BitbucketTeams;
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-            DateTime lastBackup = DateTime.Now.AddDays(-1.0);
+            DateTime lastBackup = storage.IsEmpty() ? DateTime.MinValue : DateTime.Now.AddDays(-1.0);
 
             string workingDirectory = string.Concat(Directory.GetCurrentDirectory(), @"\DataOne.BitUp.TempRepositoryBackups");
             ForceDeleteDirectory(workingDirectory);

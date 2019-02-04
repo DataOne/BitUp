@@ -14,5 +14,11 @@ namespace DataOne.BitUp
         /// </summary>
         /// <returns>The name of the location where files are saved, e.g. Azure, local file system...</returns>
         string GetName();
+
+        /// <summary>
+        /// Get the information whether the storage contents any files or directories
+        /// </summary>
+        /// <returns>Boolean value whether the storage is empty</returns>
+        bool IsEmpty();
     }
 }

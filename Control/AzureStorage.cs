@@ -3,6 +3,7 @@ using Microsoft.WindowsAzure.Storage.File;
 using System;
 using System.IO;
 using DataOne.BitUp.Properties;
+using System.Linq;
 
 namespace DataOne.BitUp
 {
@@ -12,23 +13,13 @@ namespace DataOne.BitUp
         {
             string fileName = Path.GetFileName(filePath);
 
-            string accountName = Settings.Default.AzureAccountName;
-            string accountKey = Settings.Default.AzureAccountKey;
             string storageContainer = Settings.Default.AzureStorageContainer;
-            string defaultEndpointsProtocol = Resources.AzureEndpointsProtocol;
+            string accountName = Settings.Default.AzureAccountName;
             string fileLocation = Resources.AzureFileLocation;
             string fileUri = Resources.AzureFileUri;
 
-            string connectionKey = string.Concat(defaultEndpointsProtocol, "AccountName=", accountName, ";AccountKey=", accountKey, ";");
-
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionKey);
-            CloudFileClient fileClient = storageAccount.CreateCloudFileClient();
-
-            CloudFileShare share = fileClient.GetShareReference(storageContainer);
-            share.CreateIfNotExists();
-
-            CloudFileDirectory rootDir = share.GetRootDirectoryReference();
-            rootDir.CreateIfNotExists();
+            var fileClient = GetFileClient();
+            var rootDir = EnsureRootDirectory(fileClient);
 
             var cloudFileUrl = string.Concat(fileLocation, accountName, fileUri, storageContainer, "/", fileName);
             var uriToFile = new Uri(cloudFileUrl);
@@ -42,5 +33,37 @@ namespace DataOne.BitUp
             return "Azure File Storage";
         }
 
+        public bool IsEmpty()
+        {
+            var fileClient = GetFileClient();
+            var rootDir = EnsureRootDirectory(fileClient);
+            var content = rootDir.ListFilesAndDirectories().ToList();
+            return content.Count > 0;
+        }
+
+        private CloudFileClient GetFileClient()
+        {
+            string defaultEndpointsProtocol = Resources.AzureEndpointsProtocol;
+            string accountName = Settings.Default.AzureAccountName;
+            string accountKey = Settings.Default.AzureAccountKey;
+
+            string connectionKey = string.Concat(defaultEndpointsProtocol, "AccountName=", accountName, ";AccountKey=", accountKey, ";");
+
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionKey);
+            CloudFileClient fileClient = storageAccount.CreateCloudFileClient();
+
+            return fileClient;
+        }
+
+        private CloudFileDirectory EnsureRootDirectory(CloudFileClient fileClient)
+        {
+            string storageContainer = Settings.Default.AzureStorageContainer;
+            CloudFileShare share = fileClient.GetShareReference(storageContainer);
+            share.CreateIfNotExists();
+
+            CloudFileDirectory rootDir = share.GetRootDirectoryReference();
+            rootDir.CreateIfNotExists();
+            return rootDir;
+        }
     }
 }
