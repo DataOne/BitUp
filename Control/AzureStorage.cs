@@ -38,7 +38,7 @@ namespace DataOne.BitUp
             var fileClient = GetFileClient();
             var rootDir = EnsureRootDirectory(fileClient);
             var content = rootDir.ListFilesAndDirectories().ToList();
-            return content.Count > 0;
+            return content.Count == 0;
         }
 
         private CloudFileClient GetFileClient()

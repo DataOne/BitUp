@@ -27,7 +27,7 @@ namespace DataOne.BitUp
         {
             var subDirs = Directory.GetDirectories(RepositoryFolderName);
             var files = Directory.GetFiles(RepositoryFolderName);
-            return subDirs.Length > 0 && files.Length > 0;
+            return subDirs.Length == 0 && files.Length == 0;
         }
     }
 }
